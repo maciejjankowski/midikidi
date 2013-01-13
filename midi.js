@@ -2,7 +2,7 @@ var midi = require('midi');
 var nconf = require('nconf')
 nconf.env().file({file: 'settings.json'});
 
-
+// settings for FPC intrument
 var RS= 37; var $11= 37;
 var BD= 36; var $12=  36;
 var CH= 42; var $13=  42;
@@ -45,14 +45,14 @@ function midiapi(port){
     this.timeline["RS"]=nconf.get('RS')
     this.timeline["OH"]=nconf.get('OH')
     this.timeline["CH"]=nconf.get('CH')
-    this.velocity=
+    this.velocity= // unused
         [
             0,  0,  0,  0.5,
             0,  0,  0,  0.7,
             0,  0,  0,  0.9,
             0,  0,  0,  0
         ]
-    this.t = function (note){
+    this.t = function (note){ //translate note from A#1 to a number
         var notes=[9,11,0,2,4,5,7];//abcdef...
         if (typeof note=="string"){
             note=note.toUpperCase();
@@ -70,7 +70,7 @@ function midiapi(port){
                 return note;
             } // if len
         }// note string
-        else{
+        else{ // this is still useful for stuff like t(BD) or t(41) or sth, IDK
             return note
         } //note number
     }// endf
@@ -79,15 +79,15 @@ function midiapi(port){
     }
     this.n = function(note,v,t){
         port.sendMessage([146,this.t(note),v]);
-        //setTimeout(function(){this.no.bind(midiapi,this.t(note),v,t)})
+        //setTimeout(function(){this.no.bind(midiapi,this.t(note),v,t)}) // never figured out how to settimeout for note off, something breaks
     }
 }
 
 var m = new midiapi(output);
 var i=0;
-var value=[0.3,0.1,0,0.7,0.3]; //wartosci poczatkowe
+var value=[0.3,0.1,0,0.7,0.3]; // initial values
 function cycle(){
-    i++; // each (drum, sleep drumlen/steps)
+    i++; 
     //~ console.log(value[0])
     if( m.timeline["BD"][i%m.timeline["BD"].length] + value[0] >= 1) m.n(BD,100) //BD
     if( m.timeline["SD"][i%m.timeline["SD"].length] + value[1] >= 1) m.n(SD1,110) // SD
@@ -98,8 +98,4 @@ function cycle(){
 
 a=setInterval(function(){cycle()},tempo)
 //===============================================================================
-
-
-
-
-//~ output.closePort()
+//~ output.closePort() // never happened anyway :(
