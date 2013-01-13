@@ -13,3 +13,5 @@ Would be nice to add other CCs for:
 
 Blinkenlights feedback
 
+Some time in the future:
+* socket.io with sliders/gauges to show pattern arrays and current multiplier settings
