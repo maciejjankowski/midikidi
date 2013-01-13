@@ -15,3 +15,5 @@ Blinkenlights feedback
 
 Some time in the future:
 * socket.io with sliders/gauges to show pattern arrays and current multiplier settings
+* setTimeouts for 8 bars (or 16?)
+* and deferred updates (after 16 bars)
