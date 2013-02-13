@@ -1,17 +1,34 @@
 var midi = require('midi');
+//~ var io = require('socket.io');
+
 var output = new midi.output();
 var input = new midi.input();
 input.on('message', function(deltaTime, message) {
-  //~ console.log('m:' + message + ' d:' + deltaTime);
+    console.log(message)
     var channel=message[0] & 0x0f 
     var type=message[0] & 0xf0
     type >>= 4
     var control=message[1];
     var value=message[2];
-    //~ console.log("type: "+type+' ch:' + channel + " control:" +control+" val:"+ value);
+    console.log("type: "+type+' ch:' + channel + " control:" +control+" val:"+ value);
 
-    //if (message[0]==179 )
+//~     0   0   0   0   0000
+//~     128 64  32  16  8421
+//~                     1010
+//~                     A
+                    //~ 0000 1111
+                    //~ F
+//~ 01=0 00=0 11=1
+
 }); 
+
+//~ io.sockets.on('connection', function (socket) {
+  //~ socket.emit('news', { hello: 'world' });
+  //~ socket.on('my other event', function (data) {
+    //~ console.log(data);
+  //~ });
+//~ })
+
 
 // make it open lpd8 only
 //~ console.log(input.getPortName(1))
