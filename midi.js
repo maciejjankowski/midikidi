@@ -38,12 +38,17 @@ var CY= 53; var $44=  53;
 // Set up a new output.
 var output = new midi.output();
 var input = new midi.input();
+var r = []
 input.on('message', function(deltaTime, message) {
     var channel=message[0] & 0x0f 
     var type=message[0] & 0xf0
     type >>= 4
-    var control=message[1]-1;
-    value[control]=message[2]/127;
+    var control=message[1]; //CC number
+    
+    if (channel==0)
+        value[control-1] = message[2]/127;
+    else if (channel==1)
+        r[control-9] = message[2]/127;
     //~ console.log(control)
     //~ console.log(message[2])
 }); 
@@ -100,16 +105,23 @@ function midiapi(port){
 
 var m = new midiapi(output);
 var i=0;
-var value = [0.7, 0.2, 0.1, 0.6, 0.1]; // initial values
+var value = [0.0, 0.0, 0.0, 0.1, 0.0]; // initial values
+
+function mr(arg){
+a=r[arg]*Math.random();
+console.log(a)
+    return a
+}
+r["BD"]=r["SD"]=r["RS"]=r["CH"]=r["OH"]=0
 function cycle(){
     i++; 
     //~ console.log( ("I:" + i) +" V:"+ (m.timeline["BD"][i%m.timeline["BD"].length] + value[0]) )
     //~ console.log(value[0])
-    if( m.timeline["BD"][i%m.timeline["BD"].length] + value[0] >= 1) m.n(BD,100) //BD
-    if( m.timeline["SD"][i%m.timeline["SD"].length] + value[1] >= 1) m.n(SD1,110) // SD
-    if( m.timeline["RS"][i%m.timeline["RS"].length] + value[2] >= 1) m.n(RS,63) // side
-    if( m.timeline["CH"][i%m.timeline["CH"].length] + value[3] >= 1) m.n(CH,40) // CH
-    if( m.timeline["OH"][i%m.timeline["OH"].length] + value[4] >= 1) m.n(OH,70) // OH
+    if( m.timeline["BD"][i%m.timeline["BD"].length] + value[0] + mr(0) >= 1) m.n(BD,100) //BD
+    if( m.timeline["SD"][i%m.timeline["SD"].length] + value[1] + mr(1) >= 1) m.n(SD1,110) // SD
+    if( m.timeline["RS"][i%m.timeline["RS"].length] + value[2] + mr(2) >= 1) m.n(RS,63) // side
+    if( m.timeline["CH"][i%m.timeline["CH"].length] + value[3] + mr(3) >= 1) m.n(CH,40) // CH
+    if( m.timeline["OH"][i%m.timeline["OH"].length] + value[4] + mr(4) >= 1) m.n(OH,70) // OH
 }
 
 a=setInterval(function(){cycle()}, tempo)
