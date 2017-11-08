@@ -1,19 +1,25 @@
-MIDI drum machine
-------------------
-* uses CC input (CC1-CC5) from LPD8 affecting patterns stored in settings.json
-* output to you favorite DAW through loopbe1 (http://nerds.de/en/loopbe1.html)
+Welcome to the HyperDev BETA
+============================
 
-TODO:
-------------------
-Would be nice to add other CCs for:
-* tempo
-* shuffle
-* manipulating base velocity array, probability array
-* random salt amount for more realistic shuffle
+Click `"Show"` in the header to see your app is live. Updates to your code will instantly deploy and update live.
 
-Blinkenlights feedback
+HyperDev is a developer playground that lets you code a real web-app without the slow setup and deployment steps. 
 
-Some time in the future:
-* socket.io with sliders/gauges to show pattern arrays and current multiplier settings
-* setTimeouts for 8 bars (or 16?)
-* and deferred updates (after 16 bars)
+
+Your Project
+------------
+
+On the back-end,
+- your app starts at `server.js`
+- add frameworks and packages in `package.json`
+- safely store app secrets in `.env`
+
+On the front-end,
+- edit `client.js`, `style.css` and `index.html`
+- drag in `assets`, like images or music, to add them to your project
+
+
+Made by Fog Creek
+-----------------
+
+\ ゜o゜)ノ
