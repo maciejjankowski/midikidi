@@ -1,0 +1,6 @@
+pygame
+rtpmidi
+rtmidi
+python-osc
+zeroconf
+
