@@ -10,7 +10,6 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "eslint": "^4.19.1",
     "express": "^4.16.2",
     "socket.io": "^2.0.4",
     "socket.io-p2p-server": "^1.2.0"
@@ -28,4 +27,8 @@
     "express"
   ],
   "license": "MIT"
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 966eee21a136eb3712ea13c46abf80bd2fd8fc3e

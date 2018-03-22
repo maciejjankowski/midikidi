@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <script src="/qrcode.min.js"></script>
+  <title>JS Bin</title>
+</head>
+<body>
+	<div id="qrcode"></div>
+	<h1>hello</h1>
+	<a href="http://js.cytoscape.org">nice diagrams</a>
+	<a href="https://news.ycombinator.com/item?id=1264799">force directed graphs</a>
+  <a href="#!" onclick="sourceNode.start(0);">start</a>
+	<script>
+
+
+if (QRCode){
+	new QRCode(document.getElementById("qrcode"), {
+	text: location.href,
+	width: 128,
+	height: 128,
+	colorDark : "#000000",
+	colorLight : "#ffffff",
+	correctLevel : QRCode.CorrectLevel.H
+});
+}
+    
+window.AudioContext = window.AudioContext || window.webkitAudioContext;
+
+var audioContext = new AudioContext();
+//sourceNode = audioContext.createOscillator();
+//sourceNode.start(0);
+//sourceNode.connect( audioContext.destination );
+    keyCode = 10
+document.body.addEventListener("onkeyup", (e)=>{keyCode = e.keyCode; console.log(e)});
+    
+function getFreq(){
+  return keyCode*100
+}
+    
+// Fix iOS Audio Context by Blake Kus https://gist.github.com/kus/3f01d60569eeadefe3a1
+// MIT license
+(function() {
+	window.AudioContext = window.AudioContext || window.webkitAudioContext;
+	if (window.AudioContext) {
+		window.audioContext = new window.AudioContext();
+	}
+	var fixAudioContext = function (e) {
+    return;
+		if (window.audioContext) {
+			// Create empty buffer
+			// var buffer = window.audioContext.createBuffer(1, 1, 22050);
+			// var source = window.audioContext.createBufferSource();
+      sourceNode = audioContext.createOscillator();
+      // .frequency.setValueAtTime(440, audioCtx.currentTime)
+      sourceNode.frequency.value = getFreq();
+			// source.buffer = buffer;
+			// Connect to output (speakers)
+      sourceNode.connect( audioContext.destination );
+			// source.connect(window.audioContext.destination);
+      
+			// Play sound
+			if (sourceNode.start) {
+        sourceNode.start(0);
+			}
+		}
+		// Remove events
+		document.removeEventListener('touchstart', fixAudioContext);
+		document.removeEventListener('touchend', fixAudioContext);
+    document.removeEventListener('click', fixAudioContext);
+	};
+	// iOS 6-8
+	document.addEventListener('touchstart', fixAudioContext);
+	// iOS 9
+	document.addEventListener('touchend', fixAudioContext);
+  //document.addEventListener('click', fixAudioContext);
+  // fixAudioContext()
+})();
+    
+    // https://gist.github.com/kus/3f01d60569eeadefe3a1
+    // http://getspringy.com
+    // https://davidshimjs.github.io/qrcodejs/
+    // https://gist.github.com/kus/3f01d60569eeadefe3a1
+    // https://webaudiodemos.appspot.com/pitchdetect/index.html
+    // http://teropa.info/loop/#/links
+	</script>
+</body>
+</html>

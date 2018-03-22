@@ -1,5 +1,13 @@
 var alpha, beta, gamma, xCard;
 var socket = io();
+
+var p2p = new P2P(socket);
+
+p2p.on('ready', function(){
+  p2p.usePeerConnection = true;
+  //p2p.usePeerConnection = false;
+})
+
 var canSend;
 setInterval(()=>{
   canSend = 1;
@@ -7,31 +15,27 @@ setInterval(()=>{
 
 function send(type, msg){
   // if (!canSend){return}
-  if (typeof s === 'undefined'){
-    s = socket;
-  }
-    s.emit(type, msg);
+  // socket.emit(type, msg);
+  p2p.emit(type, msg);
   canSend = 0;
 }
 
 var noteOffTimeout =[]
 
-socket.on('midi', (msg)=>{
+p2p.on('midi', (msg)=>{
   console.log('should send midi now', Date.now() - parseInt(msg.now));
-  clearTimeout(noteOffTimeout['_'+msg.note])
-  midiOut.send([0x92, msg.note, 127])
-  noteOffTimeout['_'+msg.note] = setTimeout(()=>{
-    midiOut.send([0x82, 61, 127])
-  }, 10000)
+  clearTimeout(noteOffTimeout['_' + msg.value])
+  midiOut.send([0x90, msg.value, 127])
+  noteOffTimeout['_'+msg.value] = setTimeout(()=>{
+    midiOut.send([0x80, msg.value, 127])
+  }, 500)
 })
 	var xCard;
 
 var midiOut;
 
 
-$(function () {
-
-  
+$(function () {  
   var receiver;
 	if (!('ondeviceorientation' in window)) {
 		// unsupported
@@ -71,17 +75,23 @@ $(function () {
   
   $('#button1').css('cursor','pointer');
   $('#button1').on('click touchend', (e) => {
-
-    send('click', {"button" : 1});
-    send('note', {"note" : 61, now: Date.now()});
+    send('note', {"type":"note", "value" : 48, now: Date.now()});
     e.preventDefault();
-    console.log('kliks');
-    $('#button1').fadeOut(900).fadeIn(100);
   })
   
+  $('#button2').on('click touchend', (e) => {
+    send('note', {"type":"note", "value" : 50, now: Date.now()});
+    e.preventDefault();
+  })
 
-
-  
+  $('#button3').on('click touchend', (e) => {
+    send('note', {"type":"note", "value" : 52, now: Date.now()});
+    e.preventDefault();
+  })
+  $('#button4').on('click touchend', (e) => {
+    send('note', {"type":"note", "value" : 53, now: Date.now()});
+    e.preventDefault();
+  })
 
   riot.settings.brackets = '{{ }}';    
   

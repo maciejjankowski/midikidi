@@ -1,7 +1,3 @@
-// server.js
-// where your node app starts
-
-// init project
 var express = require('express');
 var app = express();
 
@@ -9,12 +5,11 @@ app.use(express.static('public'));
 
 var receiverId;
 
-// listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
 
-let controls = {
+var controls = {
   'pan' : {'type':'cc', 'value':'22'},
   'filterFrequency' : {'type':'cc', 'value':'23'},
   'filterResonance' : {'type':'cc', 'value':'24'},
@@ -26,16 +21,16 @@ let controls = {
   'clip6' : {'type':'cc', 'value':'24'},
 }
 
-
 var io = require('socket.io')(listener);
-
+var p2p = require('socket.io-p2p-server').Server;
+io.use(p2p);
 io.on('connection', function(socket){
-  console.log('io connection! :-)')
+  // socket.id
+  console.log('io connection! :-)');
   
   socket.on('deviceorientation', function(msg){
-    // console.log('message: ',  msg);
     socket.broadcast.emit('o', msg);
-    //socket.broadcast.emit('deviceorientantion', msg);
+    console.log('sending orientation', msg)
   });
   
   socket.on('devicemotion', (msg) => {
@@ -43,13 +38,8 @@ io.on('connection', function(socket){
   })
   
   socket.on('receiver',() => {
-    // socket.broadcast.emit('receiver', socket.id);
     receiverId = socket.id;
     console.log(socket.id)
-  })
-  
-  socket.on('ui', (pos) => {
-    // io.emit('some event', { for: 'everyone' });
   })
   
   socket.on('button', (data) => {
@@ -58,8 +48,6 @@ io.on('connection', function(socket){
   
   socket.on('note', function(msg){
     console.log('message: ',  msg, "to", receiverId, Date.now() - parseInt(msg.now));    
-    // socket.to(receiverId).emit('midi', msg);
     socket.broadcast.emit('midi', msg);
   });
-  
 });
