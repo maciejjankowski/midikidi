@@ -1,10 +1,28 @@
-MIDI over socket.io
+Sound thing
 ============================
 
-Consists of three component:
+# sequencer
+# http://www.squarp.net pyramid 2
+## Roland system 100
+## intelijel metropolis
 
-1. Control Client: sends control messages over socket.io
-2. Control Server: translates control messages received over socket.io to MIDI messages and sends them to LoopBe1 interface
-3. Control Relay: Allows Client and Server to exchange messages
 
-https://github.com/ravelox/pimidi
+Todos
+------------
+
+* [] przydział kontrolek klientom
+* [] listowanie klientów
+* [] force oriented graph / force directed graph
+* [] procedura odczytywania
+* [] kontrolki: przycisk (CC, note), slider
+* [] https://github.com/quiet/quiet-js
+* [] https://github.com/eduardolundgren/tracking.js/ https://github.com/auduno/clmtrackr
+
+* [] web midi linux: http://llg.cubic.org/tools/multimidicast/
+http://www.humatic.de/htools/nmj/
+https://qmidinet.sourceforge.io
+https://unix.stackexchange.com/questions/28478/linux-support-for-rtp-midi
+https://github.com/jdachtera/node-rtpmidi/blob/master/examples/rtpmidi-native-bridge.js
+http://www.soundstep.com/blog/experiments/jsdetection/
+https://webaudio.github.io/demo-list/
+

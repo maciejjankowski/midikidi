@@ -16,7 +16,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     
     <link rel="stylesheet" href="/style.css">
     
@@ -28,32 +28,123 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
     
     <script src="/socket.io/socket.io.js"></script>
-    
+    <script src="/io-p2p.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/riot@3.7/riot+compiler.min.js"></script>
   </head>
-  <body>
-    <header>
-      <h1>
-        Xyz
-      </h1>
-    </header>
-
-    <main>
+  <body >
+    
+    <main style="margin-top:100px; text-align:center">
     <a href="#!" id="button1" class="btn btn-info" style="cursor:pointer">
-      click
+      Start
     </a>
       
+     <a href="#!" id="button2" class="btn btn-warning" style="cursor:pointer">
+      Marker 1
+    </a>
+      
+    <a href="#!" id="button3" class="btn btn-danger" style="cursor:pointer">
+      Marker 2
+    </a>
+    <a href="#!" id="button4" class="btn btn-primary" style="cursor:pointer">
+      Marker 3
+    </a>
+      
+
     </main>
 
-    <footer>
-      I maed dis!
-    </footer>
+   
+<section class="container sequencer">
+  <style>
+  .sequencer .active {
+    background-color: #138496;
+  }
+  .sequencer li {
+   list-style-type: none; 
+  }
+</style> 
+  <div id="app">
+  <a href="#!" class="btn btn-primary btn-sm">stop</a>
+    <input type="number" min="1" max="999" step="0.1"  v-model="tempo">
+  <li v-for="(step, i) in sequence" v-bind:class="{active : i === position}">
+    {{i}}<input type="number" min="0" max="16" step="1" v-model="step.count">
+    <input type="number" min="-25" max="25" step="1" v-model="step.note">
+  </li>
+  </div>
+</section>
 
     <x-card></x-card>
     
     <script type="riot/tag" src="/3dcard.html"></script>
+
+
+    
+<script>
+  var app = new Vue({
+  el: '#app',
+  data: {
+    sequence: [{
+      type: 'single',
+      note: 0,
+      count : 1,
+    },
+    {
+      type: 'single',
+      note: 2,
+      count : 3,
+    },
+    {
+      type: 'skip',
+      note: 2,
+      count : 3,
+    },
+    {
+      type: 'pulse',
+      note: 2,
+      count : 3,
+    },
+    {
+      type: 'slide',
+      note: 2,
+      count : 3,
+    }],
+    tempo : 120,
+    tick : 4,
+    timeBase : 1000 * 60,
+    position : 0,
+    rootNote : 'C', // app.getNoteNumber('C')
+    sequencerType : 'forward', // ["ping-pong", "reverse"]
+    ticks : [], // evenly time-distributed events, low level ticks
+    tick : function(){
+      let step = app.sequence[app.position];
+      // dispatch all timeouts for current step
+      // app.timeBase / (app.tempo );
+      /* 
+      if (step.type === 'pulse'){
+        let tick = {duration : step.count, note : app.rootNote + step.note};
+        ticks.push(tick);
+      } else if (step.type === 'single'){
+        let tick = {duration : step.count, note : app.rootNote + step.note};
+        for (let i = step.count; i>0; i--){
+          tick.push(tick)
+        }
+      }
+      */
+    },
+    nextStep : function(){
+      if (app.sequencerType === 'forward'){
+        app.position = ++app.position % app.sequence.length;
+      }
+      app.tick();
+    }
+  }
+});
+  
+  app.tick();
+</script>    
+    
     <script src="/client.js"></script>
     <script src="/midi.js"></script>
-
+    <img class="midi" src="https://s3.amazonaws.com/media-p.slid.es/uploads/258539/images/4309227/pasted-from-clipboard.png">
+    
   </body>
 </html>

@@ -10,9 +10,9 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "^4.12.4",
-    "mdns": "^2.3.4",
-    "socket.io": "*"
+    "express": "^4.16.2",
+    "socket.io": "^2.0.4",
+    "socket.io-p2p-server": "^1.2.0"
   },
   "engines": {
     "node": "4.4.5"
