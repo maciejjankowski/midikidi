@@ -1,0 +1,7 @@
+oi/*
+env
+node_modules
+__pycache__
+.history
+.vscode
+

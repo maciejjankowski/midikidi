@@ -6,7 +6,6 @@ from itertools import chain
 from pythonosc import osc_message_builder
 from pythonosc import udp_client
 
-
 if __name__ == "__main__":
   parser = argparse.ArgumentParser()
   parser.add_argument("--ip", default="127.0.0.1",

@@ -1,0 +1,57 @@
+<!doctype html>
+<title>Hello from Flask</title>
+{% if name %}
+  <h1>Hello {{ name  }}!</h1>
+{% else %}
+    <h1>Hello, sWorld!</h1>
+{% endif %}
+<script>
+  var lp;
+  function _initMidi(){
+
+if (typeof navigator.requestMIDIAccess === 'undefined') 
+  return;
+console.log('init');	
+navigator.requestMIDIAccess({sysex:true}).then(function(midiAccess){
+  (function startLoggingMIDIInput( midiAccess, indexOfPort ) {
+    
+    midiAccess.inputs.forEach( function(entry) {
+      console.log('entry', entry.name)
+      entry.onmidimessage = onMIDIMessage;
+    });
+
+    midiAccess.outputs.forEach((entry) => {
+      if (entry.name.indexOf('chpad') >- 1){
+        console.log('found launchpad')
+        lp = entry;
+        entry.open();
+      }
+    })
+
+
+  })(midiAccess);
+var color = 0;
+var position = 0;
+
+  function onMIDIMessage( event ) {
+    var str = "";
+    for (var i=0; i<event.data.length; i++) {
+      str += "0x" + event.data[i].toString(16) + " ";
+    }
+    if (event.target.name.indexOf('MIDI Mix') > -1){
+      if (event.data[1] == 5){
+        color = event.data[2];
+      } else if (event.data[1] == 8){
+        position = event.data[2];
+      }
+      console.log('sending', position, color);
+      lp.send([0x90, position, color]);
+    } else {
+      console.log('wat?')
+    }
+    console.log( event.target.name, str );
+  }
+}); // then
+}
+_initMidi();
+</script>

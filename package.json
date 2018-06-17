@@ -1,34 +1,14 @@
 {
-  "//1": "describes your app and its dependencies",
-  "//2": "https://docs.npmjs.com/files/package.json",
-  "//3": "updating this file will download and update your packages",
-  "name": "my-hyperdev-app",
-  "version": "0.0.1",
-  "description": "What am I about?",
-  "main": "server.js",
+  "name": "oioioi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test.js",
   "scripts": {
-    "start": "node server.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "express": "^4.16.2",
-    "socket.io": "^2.0.4",
-    "socket.io-p2p-server": "^1.2.0"
-  },
-  "engines": {
-    "node": "4.4.5"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://hyperdev.com/#!/project/welcome-project"
-  },
-  "keywords": [
-    "node",
-    "hyperdev",
-    "express"
-  ],
-  "license": "MIT"
-<<<<<<< HEAD
+    "launchpad-mini": "^2.1.2"
+  }
 }
-=======
-}
->>>>>>> 966eee21a136eb3712ea13c46abf80bd2fd8fc3e
