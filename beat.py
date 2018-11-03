@@ -2,6 +2,8 @@ import time
 import rtmidi
 import random
 
+MIDI_CHANNEL = 0x91;
+
 N_BD = 35
 N_SD = 36
 N_SW = 43
@@ -14,7 +16,7 @@ BPM = 120
 TAKT = 60 / BPM / 4
 
 def note(note_number, velocity=127):
-  midi_port.send_message([0x91, note_number, velocity])
+  midi_port.send_message([MIDI_CHANNEL, note_number, velocity])
   time.sleep(0.0005)
 
 while True:
