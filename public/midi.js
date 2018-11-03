@@ -8,7 +8,9 @@ function _initMidi(){
 	navigator.requestMIDIAccess().then(function(midiAccess){
 		(function startLoggingMIDIInput( midiAccess, indexOfPort ) {
 
+
 		  midiAccess.inputs.forEach( function(entry) {
+        
         if (entry.name !== "LoopBe Internal MIDI" ){
           console.log('entry', entry)
           entry.onmidimessage = onMIDIMessage;
@@ -16,7 +18,7 @@ function _initMidi(){
       });
       
       midiAccess.outputs.forEach((entry)=>{
-        if (entry.name === "LoopBe Internal MIDI"){
+        if (entry.name.indexOf('') >- 1){
           midiOut = entry;
           send('receiver');
         }
@@ -30,15 +32,10 @@ function _initMidi(){
 		  for (var i=0; i<event.data.length; i++) {
 			  str += "0x" + event.data[i].toString(16) + " ";
 		  }
-		  console.log( event.timeStamp, str );
+		  // console.log( event.timeStamp, str );
 		}
     
 	}); // then
 }
 
-$('.midi').hide();
-if (localStorage.midiHost) {
-  _initMidi();
-  $('.btn').hide();
-  $('.midi').show();
-}
+_initMidi();
