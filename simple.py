@@ -6,9 +6,12 @@ from itertools import chain
 from pythonosc import osc_message_builder
 from pythonosc import udp_client
 
+
+
+DEFAULT_IP = "192.168.10.21"
 if __name__ == "__main__":
   parser = argparse.ArgumentParser()
-  parser.add_argument("--ip", default="127.0.0.1",
+  parser.add_argument("--ip", default=DEFAULT_IP,
       help="The ip of the OSC server")
   parser.add_argument("--port", type=int, default=5005,
       help="The port the OSC server is listening on")
