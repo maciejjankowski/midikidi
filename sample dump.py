@@ -8,7 +8,7 @@ def program_change(program_number):
   pass
 
 def play_sample(sample_number):
-  for velocity in [15, 31, 63, 95, 111, 127]
+  for velocity in [15, 31, 63, 95, 111, 127]:
     play_note(NOTES[sample_number], velocity)
     time.sleep(5)
 
